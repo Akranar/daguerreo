@@ -15,4 +15,7 @@ Daguerreo Rendering Library uses the following third party software:
     Eigen		
         Location: ./src/Geometry_Eigen/
         License: LGPL3+ License
+    SOIL
+        Location: ./src/IO_SOIL/
+        License: Public Domain
 
