@@ -78,7 +78,7 @@ public:
 	void InitSkinning(unsigned int skin_mesh_count)
 	{
 		#ifdef USE_OPENGL21
-		ShaderProgram * skinning_shader = registry.Retrieve(registry.GetShaderProgramCatalog(), "GLSL/Skinning.glslv|GLSL/LightingDemo.glslf");
+		ShaderProgram * skinning_shader = registry.Retrieve(registry.GetShaderProgramCatalog(), "GLSL21/Skinning.glslv|GLSL/LightingDemo.glslf");
 		#elif USE_DIRECTX10
 		ShaderProgram * skinning_shader = registry.Retrieve(registry.GetShaderProgramCatalog(), "HLSL/Skinning.vs4|HLSL/LightingDemo.ps4");
 		#else
@@ -149,7 +149,7 @@ public:
 	void InitSkyCube()
 	{
 		#ifdef USE_OPENGL21
-		ShaderProgram * cube_shader = registry.Retrieve(registry.GetShaderProgramCatalog(), "GLSL/TextureCube.glslv|GLSL/TextureCube.glslf");
+		ShaderProgram * cube_shader = registry.Retrieve(registry.GetShaderProgramCatalog(), "GLSL21/TextureCube.glslv|GLSL/TextureCube.glslf");
 		#elif USE_DIRECTX10
 		ShaderProgram * cube_shader = registry.Retrieve(registry.GetShaderProgramCatalog(), "HLSL/TextureCube.vs4|HLSL/TextureCube.ps4");
 		#else
@@ -176,7 +176,7 @@ public:
 	void InitTerrainPatch()
 	{
 		#ifdef USE_OPENGL21
-		ShaderProgram * texture_2d = registry.Retrieve(registry.GetShaderProgramCatalog(), "GLSL/Texture2D.glslv|GLSL/Texture2D.glslf");
+		ShaderProgram * texture_2d = registry.Retrieve(registry.GetShaderProgramCatalog(), "GLSL21/Texture2D.glslv|GLSL/Texture2D.glslf");
 		#elif USE_DIRECTX10
 		ShaderProgram * texture_2d = registry.Retrieve(registry.GetShaderProgramCatalog(), "HLSL/Texture2D.vs4|HLSL/Texture2D.ps4");
 		#else

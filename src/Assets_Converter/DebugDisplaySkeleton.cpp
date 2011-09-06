@@ -28,7 +28,7 @@ void DebugDisplaySkeleton::Init(RendererBase * _renderer, Projector * _camera)
 	camera = _camera;
 	DescShaderProgram shader_desc;
 #ifdef USE_OPENGL
-	shader_desc.ReadFiles("GLSL/Default.glslv", "GLSL/Default.glslf");
+	shader_desc.ReadFiles("GLSL21/Default.glslv", "GLSL/Default.glslf");
 #elif USE_DIRECTX10
 	shader_desc.ReadFiles("HLSL/Default.vs4", "HLSL/Default.ps4");
 #endif
