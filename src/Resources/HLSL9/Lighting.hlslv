@@ -1,0 +1,43 @@
+// hlslv output by Cg compiler
+// cgc version 3.0.0016, build date Feb 11 2011
+// command line args: -profile hlslv
+// source file: Lighting.cg
+//vendor NVIDIA Corporation
+//version 3.0.0.16
+//profile hlslv
+//program MainV
+//semantic MainV.ModelViewProjMatrix
+//semantic MainV.ModelMatrix
+//var float4x4 ModelViewProjMatrix :  : _ModelViewProjMatrix[0], 4 : 5 : 1
+//var float4x4 ModelMatrix :  : _ModelMatrix[0], 4 : 6 : 1
+//var float4 position : $vin.POSITION : POSITION : 0 : 1
+//var float3 normal : $vin.NORMAL : NORMAL : 1 : 1
+//var float4 out_position : $vout.POSITION : POSITION : 2 : 1
+//var float3 world_position : $vout.TEXCOORD0 : TEXCOORD0 : 3 : 1
+//var float3 out_normal : $vout.TEXCOORD1 : TEXCOORD1 : 4 : 1
+
+#pragma pack_matrix(row_major)
+
+float4 _r0003;
+float4 _r0005;
+float3 _r0007;
+
+ // main procedure, the original name was MainV
+void main(in float4 _position : POSITION, in float3 _normal : NORMAL, out float4 _out_position : POSITION, out float3 _world_position : TEXCOORD0, out float3 _out_normal : TEXCOORD1, uniform float4x4 _ModelViewProjMatrix, uniform float4x4 _ModelMatrix)
+{
+
+
+    _r0003.x = dot(_ModelViewProjMatrix._11_12_13_14, _position);
+    _r0003.y = dot(_ModelViewProjMatrix._21_22_23_24, _position);
+    _r0003.z = dot(_ModelViewProjMatrix._31_32_33_34, _position);
+    _r0003.w = dot(_ModelViewProjMatrix._41_42_43_44, _position);
+    _out_position = _r0003;
+    _r0005.x = dot(_ModelMatrix._11_12_13_14, _position);
+    _r0005.y = dot(_ModelMatrix._21_22_23_24, _position);
+    _r0005.z = dot(_ModelMatrix._31_32_33_34, _position);
+    _world_position = _r0005.xyz;
+    _r0007.x = dot(_ModelMatrix._11_12_13, _normal);
+    _r0007.y = dot(_ModelMatrix._21_22_23, _normal);
+    _r0007.z = dot(_ModelMatrix._31_32_33, _normal);
+    _out_normal = _r0007;
+} // main end

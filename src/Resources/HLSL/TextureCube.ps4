@@ -1,0 +1,21 @@
+
+#pragma pack_matrix(row_major)
+
+
+struct OutDataF {
+    float4 fragment_color : SV_Target;
+};
+
+struct X1X {
+    float4 vout_position : POSITION0;
+    float3 model_position : TEXCOORD0;
+};
+
+TextureCube<float4> image_texture;
+
+OutDataF main(uniform SamplerState image,  in X1X cin)
+{
+    OutDataF cout;
+    cout.fragment_color = image_texture.Sample(image, cin.model_position);
+    return cout;
+}

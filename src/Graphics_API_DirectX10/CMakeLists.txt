@@ -1,0 +1,13 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+Project(Graphics_DirectX10)
+
+FILE(GLOB DirectX10_SRCS *.cpp)
+FILE(GLOB DirectX10_H *.h)
+
+IF(WIN32)
+    SET(DirectX10_SRCS ${DirectX10_SRCS} ${DirectX10_H})
+ENDIF(WIN32)
+
+ADD_LIBRARY(Graphics_API_DirectX10 STATIC ${DirectX10_SRCS})
+

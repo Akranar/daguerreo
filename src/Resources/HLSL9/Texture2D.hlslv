@@ -1,0 +1,52 @@
+// hlslv output by Cg compiler
+// cgc version 3.0.0016, build date Feb 11 2011
+// command line args: -profile hlslv
+// source file: Texture2D.cg
+//vendor NVIDIA Corporation
+//version 3.0.0.16
+//profile hlslv
+//program mainV
+//semantic mainV.ModelViewProjMatrix
+//var float4x4 ModelViewProjMatrix :  : _ModelViewProjMatrix[0], 4 : 1 : 1
+//var float4 IN.position : $vin.POSITION : POSITION : 0 : 1
+//var float2 IN.texcoord0 : $vin.TEXCOORD0 : TEXCOORD0 : 0 : 1
+//var float4 mainV.position : $vout.POSITION : POSITION : -1 : 1
+//var float2 mainV.texcoord0 : $vout.TEXCOORD0 : TEXCOORD0 : -1 : 1
+
+#pragma pack_matrix(row_major)
+
+struct InDataV {
+    float4 _position1 : POSITION;
+    float2 _texcoord01 : TEXCOORD0;
+};
+
+struct OutDataV {
+    float4 _position : POSITION;
+    float2 _texcoord0 : TEXCOORD0;
+};
+
+struct InDataF {
+    float4 _position2 : POSITION;
+    float2 _texcoord02 : TEXCOORD0;
+};
+
+struct OutDataF {
+    float4 _color : COLOR0;
+};
+
+float4 _r0001;
+
+ // main procedure, the original name was mainV
+OutDataV main(in InDataV _IN, uniform float4x4 _ModelViewProjMatrix)
+{
+
+    OutDataV _OUT;
+
+    _r0001.x = dot(_ModelViewProjMatrix._11_12_13_14, _IN._position1);
+    _r0001.y = dot(_ModelViewProjMatrix._21_22_23_24, _IN._position1);
+    _r0001.z = dot(_ModelViewProjMatrix._31_32_33_34, _IN._position1);
+    _r0001.w = dot(_ModelViewProjMatrix._41_42_43_44, _IN._position1);
+    _OUT._position = _r0001;
+    _OUT._texcoord0 = _IN._texcoord01;
+    return _OUT;
+} // main end

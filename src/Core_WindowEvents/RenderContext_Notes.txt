@@ -1,0 +1,396 @@
+#ifndef _RENDER_CONTEXT_H_
+#define _RENDER_CONTEXT_H_
+
+class PixelFormat
+{
+public:
+	PixelFormat();
+	/*
+	http://www.opengl.org/registry/specs/ARB/multisample.txt
+	http://ogltotd.blogspot.com/2006/12/setting-up-antialiasing.html
+		WGL
+			WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+			WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+			WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_ARB,
+			WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+			WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+			WGL_RED_BITS_ARB, 8,
+			WGL_GREEN_BITS_ARB, 8,
+			WGL_BLUE_BITS_ARB, 8,
+			WGL_ALPHA_BITS_ARB, 8,
+			WGL_DEPTH_BITS_ARB, 24,
+			WGL_STENCIL_BITS_ARB, 8,
+			WGL_SAMPLE_BUFFERS_ARB, 1,
+			WGL_SAMPLES_ARB, 4,
+			0
+
+		XGL
+			GLX_X_RENDERABLE, true,
+			GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+			GLX_RENDER_TYPE, GLX_RGBA_BIT,
+			GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+			GLX_DOUBLEBUFFER, true,
+			GLX_RED_SIZE, 8,
+			GLX_GREEN_SIZE, 8,
+			GLX_BLUE_SIZE, 8,
+			GLX_ALPHA_SIZE, 8,
+			GLX_DEPTH_SIZE, 24,
+			GLX_STENCIL_SIZE, 8,
+			GLX_SAMPLE_BUFFERS_ARB, 1,
+			GLX_SAMPLES_ARB, 4,
+			None
+
+		CocoaGL
+			NSOpenGLPFAWindow,
+			NSOpenGLPFAAccelerated,
+			NSOpenGLPFADoubleBuffer,
+			NSOpenGLPFANoRecovery,
+			NSOpenGLPFAMinimumPolicy,
+			NSOpenGLPFAScreenMask, CGDisplayIDToOpenGLDisplayMask(CGMainDisplayID()),
+			NSOpenGLPFAColorSize, (NSOpenGLPixelFormatAttribute) 24,
+			NSOpenGLPFAAlphaSize, (NSOpenGLPixelFormatAttribute) 8,
+			NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute) 24,
+			NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 8,
+			NSOpenGLPFAMultisample,
+			NSOpenGLPFASampleBuffers, 1,
+			NSOpenGLPFASamples, 4,
+			NSOpenGLPFASampleAlpha,
+			(NSOpenGLPixelFormatAttribute)nil
+
+			
+			
+
+	*/
+};
+
+class RenderContextPimpl
+{
+	static HGLRC hgl_render_context = 0;
+	static GLXContext ogl_render_context = 0;
+	static NSOpenGLContext* _openGLContext = 0;
+};
+
+class RenderContext
+{
+	RenderContextPimpl pimpl;
+		
+public:
+	RenderContext();
+};
+
+//Suggested API
+WindowEvents.CreateRenderContext(PixelFormat * pixel_format);
+WindowEvents.SetRenderContext(WindowEvents.GetRenderContext());
+WindowEvents.CreateRenderContext(PixelFormat * pixel_format, WindowEvents.GetRenderContext());
+
+#endif
+
+/*
+	WGL: http://www.opengl.org/registry/specs/ARB/wgl_pixel_format.txt
+		WGL_NUMBER_PIXEL_FORMATS_ARB            0x2000
+     *  WGL_DRAW_TO_WINDOW_ARB                  0x2001
+        WGL_DRAW_TO_BITMAP_ARB                  0x2002
+     *  WGL_ACCELERATION_ARB                    0x2003
+        WGL_NEED_PALETTE_ARB                    0x2004
+        WGL_NEED_SYSTEM_PALETTE_ARB             0x2005
+        WGL_SWAP_LAYER_BUFFERS_ARB              0x2006
+        WGL_SWAP_METHOD_ARB                     0x2007
+        WGL_NUMBER_OVERLAYS_ARB                 0x2008
+        WGL_NUMBER_UNDERLAYS_ARB                0x2009
+        WGL_TRANSPARENT_ARB                     0x200A
+        WGL_TRANSPARENT_RED_VALUE_ARB           0x2037
+        WGL_TRANSPARENT_GREEN_VALUE_ARB         0x2038
+        WGL_TRANSPARENT_BLUE_VALUE_ARB          0x2039
+        WGL_TRANSPARENT_ALPHA_VALUE_ARB         0x203A
+        WGL_TRANSPARENT_INDEX_VALUE_ARB         0x203B
+        WGL_SHARE_DEPTH_ARB                     0x200C
+        WGL_SHARE_STENCIL_ARB                   0x200D
+        WGL_SHARE_ACCUM_ARB                     0x200E
+        WGL_SUPPORT_GDI_ARB                     0x200F
+     *  WGL_SUPPORT_OPENGL_ARB                  0x2010
+     *  WGL_DOUBLE_BUFFER_ARB                   0x2011
+        WGL_STEREO_ARB                          0x2012
+        WGL_PIXEL_TYPE_ARB                      0x2013
+     *  WGL_COLOR_BITS_ARB                      0x2014
+     *  WGL_RED_BITS_ARB                        0x2015
+        WGL_RED_SHIFT_ARB                       0x2016
+     *  WGL_GREEN_BITS_ARB                      0x2017
+        WGL_GREEN_SHIFT_ARB                     0x2018
+     *  WGL_BLUE_BITS_ARB                       0x2019
+        WGL_BLUE_SHIFT_ARB                      0x201A
+     *  WGL_ALPHA_BITS_ARB                      0x201B
+        WGL_ALPHA_SHIFT_ARB                     0x201C
+        WGL_ACCUM_BITS_ARB                      0x201D
+        WGL_ACCUM_RED_BITS_ARB                  0x201E
+        WGL_ACCUM_GREEN_BITS_ARB                0x201F
+        WGL_ACCUM_BLUE_BITS_ARB                 0x2020
+        WGL_ACCUM_ALPHA_BITS_ARB                0x2021
+     *  WGL_DEPTH_BITS_ARB                      0x2022
+     *  WGL_STENCIL_BITS_ARB                    0x2023
+        WGL_AUX_BUFFERS_ARB                     0x2024
+
+    Accepted as a value in the <piAttribIList> and <pfAttribFList>
+    parameter arrays of wglChoosePixelFormatARB, and returned in the
+    <piValues> parameter array of wglGetPixelFormatAttribivARB, and the
+    <pfValues> parameter array of wglGetPixelFormatAttribfvARB:
+
+        WGL_NO_ACCELERATION_ARB                 0x2025
+        WGL_GENERIC_ACCELERATION_ARB            0x2026
+    *   WGL_FULL_ACCELERATION_ARB               0x2027
+
+        WGL_SWAP_EXCHANGE_ARB                   0x2028
+        WGL_SWAP_COPY_ARB                       0x2029
+        WGL_SWAP_UNDEFINED_ARB                  0x202A
+
+    *   WGL_TYPE_RGBA_ARB                       0x202B
+        WGL_TYPE_COLORINDEX_ARB                 0x202C
+
+*/
+
+/*
+	XGL : http://www.opengl.org/sdk/docs/man/xhtml/glXGetFBConfigAttrib.xml
+		GLX_FBCONFIG_ID
+
+            XID of the given GLXFBConfig.
+                        
+	 *	GLX_BUFFER_SIZE
+
+			Number of bits per color buffer.
+			If the frame buffer configuration supports RGBA contexts, then
+			GLX_BUFFER_SIZE is the sum of
+			GLX_RED_SIZE,
+			GLX_GREEN_SIZE,
+			GLX_BLUE_SIZE, and
+			GLX_ALPHA_SIZE.
+			If the frame buffer configuration supports only color index contexts,
+			GLX_BUFFER_SIZE is the size of the
+			color indexes.
+
+		GLX_LEVEL
+
+			Frame buffer level of the configuration.
+			Level zero is the default frame buffer.
+			Positive levels correspond to frame buffers that overlay the default buffer,
+			and negative levels correspond to frame buffers that underlie the default
+			buffer.
+
+	*	GLX_DOUBLEBUFFER
+
+			True if color buffers exist in front/back pairs that can be swapped,
+			False otherwise.
+
+		GLX_STEREO
+
+			True if color buffers exist in left/right pairs,
+			False otherwise.
+
+		GLX_AUX_BUFFERS
+
+			Number of auxiliary color buffers that are available.
+			Zero indicates that no auxiliary color buffers exist.
+
+	*	GLX_RED_SIZE
+
+			Number of bits of red stored in each color buffer.
+			Undefined if RGBA contexts are not supported by the frame buffer configuration.
+
+	*	GLX_GREEN_SIZE
+
+			Number of bits of green stored in each color buffer.
+			Undefined if RGBA contexts are not supported by the frame buffer configuration.
+
+	*	GLX_BLUE_SIZE
+
+			Number of bits of blue stored in each color buffer.
+			Undefined if RGBA contexts are not supported by the frame buffer configuration.
+
+	*	GLX_ALPHA_SIZE
+
+			Number of bits of alpha stored in each color buffer.
+			Undefined if RGBA contexts are not supported by the frame buffer configuration.
+
+	*	GLX_DEPTH_SIZE
+
+			Number of bits in the depth buffer.
+
+	*	GLX_STENCIL_SIZE
+
+			Number of bits in the stencil buffer.
+
+		GLX_ACCUM_RED_SIZE
+
+			Number of bits of red stored in the accumulation buffer.
+
+		GLX_ACCUM_GREEN_SIZE
+
+			Number of bits of green stored in the accumulation buffer.
+
+		GLX_ACCUM_BLUE_SIZE
+
+			Number of bits of blue stored in the accumulation buffer.
+
+		GLX_ACCUM_ALPHA_SIZE
+
+			Number of bits of alpha stored in the accumulation buffer.
+
+	*	GLX_RENDER_TYPE
+
+			Mask indicating what type of GLX contexts can be made
+			current to the frame buffer configuration. Valid bits are 
+		*	GLX_RGBA_BIT and
+			GLX_COLOR_INDEX_BIT.
+
+	*	GLX_DRAWABLE_TYPE
+
+			Mask indicating what drawable types the frame buffer configuration
+			supports. Valid bits are GLX_WINDOW_BIT,
+			GLX_PIXMAP_BIT, and GLX_PBUFFER_BIT.
+
+	*	GLX_X_RENDERABLE
+
+			True if drawables created with the 
+			frame buffer configuration can be rendered to by X.
+
+		GLX_VISUAL_ID
+
+			XID of the corresponding visual, or zero 
+			if there is no associated visual (i.e., if
+			GLX_X_RENDERABLE is False or
+			GLX_DRAWABLE_TYPE does not have the
+			GLX_WINDOW_BIT bit set).
+
+	*	GLX_X_VISUAL_TYPE
+
+			Visual type of associated visual. The returned value will be one of:
+			GLX_TRUE_COLOR, GLX_DIRECT_COLOR, GLX_PSEUDO_COLOR,
+			GLX_STATIC_COLOR, GLX_GRAY_SCALE, GLX_STATIC_GRAY,
+			or GLX_NONE, if there is no associated visual (i.e., if
+			GLX_X_RENDERABLE is False or
+			GLX_DRAWABLE_TYPE does not have the
+			GLX_WINDOW_BIT bit set).
+
+		GLX_CONFIG_CAVEAT
+
+			One of GLX_NONE,
+			GLX_SLOW_CONFIG, or 
+			GLX_NON_CONFORMANT_CONFIG, indicating
+			that the frame buffer configuration has no caveats,
+			some aspect of the frame buffer configuration runs slower
+			than other frame buffer configurations, or some aspect of the
+			frame buffer configuration is nonconformant, respectively.
+
+		GLX_TRANSPARENT_TYPE
+
+			One of GLX_NONE,
+			GLX_TRANSPARENT_RGB,
+			GLX_TRANSPARENT_INDEX, indicating that 
+			the frame buffer configuration is opaque, is transparent for particular
+			values of red, green, and blue, or is transparent for
+			particular index values, respectively.
+
+		GLX_TRANSPARENT_INDEX_VALUE
+
+			Integer value between 0 and the maximum
+			frame buffer value for indices, indicating the transparent
+			index value for the frame buffer configuration. 
+			Undefined if GLX_TRANSPARENT_TYPE
+			is not GLX_TRANSPARENT_INDEX.
+
+		GLX_TRANSPARENT_RED_VALUE
+
+			Integer value between 0 and the maximum
+			frame buffer value for red, indicating the transparent
+			red value for the frame buffer configuration. 
+			Undefined if GLX_TRANSPARENT_TYPE
+			is not GLX_TRANSPARENT_RGB.
+
+		GLX_TRANSPARENT_GREEN_VALUE
+
+			Integer value between 0 and the maximum
+			frame buffer value for green, indicating the transparent
+			green value for the frame buffer configuration. 
+			Undefined if GLX_TRANSPARENT_TYPE
+			is not GLX_TRANSPARENT_RGB.
+
+		GLX_TRANSPARENT_BLUE_VALUE
+
+			Integer value between 0 and the maximum
+			frame buffer value for blue, indicating the transparent
+			blue value for the frame buffer configuration. 
+			Undefined if GLX_TRANSPARENT_TYPE
+			is not GLX_TRANSPARENT_RGB.
+
+		GLX_TRANSPARENT_ALPHA_VALUE
+
+			Integer value between 0 and the maximum
+			frame buffer value for alpha, indicating the transparent
+			blue value for the frame buffer configuration. 
+			Undefined if GLX_TRANSPARENT_TYPE
+			is not GLX_TRANSPARENT_RGB.
+
+		GLX_MAX_PBUFFER_WIDTH
+
+			The maximum width that can be specified to 
+			glXCreatePbuffer.
+
+		GLX_MAX_PBUFFER_HEIGHT
+
+			The maximum height that can be specified to 
+			glXCreatePbuffer.
+
+		GLX_MAX_PBUFFER_PIXELS
+
+			The maximum number of pixels (width times height) for a 
+			pixel buffer. Note that this value may be less than
+			GLX_MAX_PBUFFER_WIDTH times
+			GLX_MAX_PBUFFER_HEIGHT. Also, this
+			value is static and assumes that no other pixel buffers 
+			or X resources are contending for the frame buffer memory. 
+			As a result, it may not be possible to allocate a pixel buffer of
+			the size given by GLX_MAX_PBUFFER_PIXELS.
+*/
+
+/*
+		CocoaGL : http://developer.apple.com/library/mac/#documentation/cocoa/reference/ApplicationKit/Classes/NSOpenGLPixelFormat_Class/Reference/Reference.html#//apple_ref/doc/uid/20000464-2757
+			enum {
+			   NSOpenGLPFAAllRenderers       =   1,
+		*	   NSOpenGLPFADoubleBuffer       =   5,
+			   NSOpenGLPFAStereo             =   6,
+			   NSOpenGLPFAAuxBuffers         =   7,
+		*	   NSOpenGLPFAColorSize          =   8,
+		*	   NSOpenGLPFAAlphaSize          =  11,
+		*	   NSOpenGLPFADepthSize          =  12,
+		*	   NSOpenGLPFAStencilSize        =  13,
+			   NSOpenGLPFAAccumSize          =  14,
+			   NSOpenGLPFAMinimumPolicy      =  51,
+			   NSOpenGLPFAMaximumPolicy      =  52,
+			   NSOpenGLPFAOffScreen          =  53,
+			   NSOpenGLPFAFullScreen         =  54,
+		*	   NSOpenGLPFASampleBuffers      =  55,
+		*	   NSOpenGLPFASamples            =  56,
+			   NSOpenGLPFAAuxDepthStencil    =  57,
+			   NSOpenGLPFAColorFloat         =  58,
+		*	   NSOpenGLPFAMultisample        =  59,
+			   NSOpenGLPFASupersample        =  60,
+			   NSOpenGLPFASampleAlpha        =  61,
+			   NSOpenGLPFARendererID         =  70,
+			   NSOpenGLPFASingleRenderer     =  71,
+		*	   NSOpenGLPFANoRecovery         =  72,
+		*	   NSOpenGLPFAAccelerated        =  73,
+			   NSOpenGLPFAClosestPolicy      =  74,
+			   NSOpenGLPFARobust             =  75,
+			   NSOpenGLPFABackingStore       =  76,
+			   NSOpenGLPFAMPSafe             =  78,
+		*	   NSOpenGLPFAWindow             =  80,
+			   NSOpenGLPFAMultiScreen        =  81,
+			   NSOpenGLPFACompliant          =  83,
+		*	   NSOpenGLPFAScreenMask         =  84,
+			   NSOpenGLPFAPixelBuffer        =  90,
+			   NSOpenGLPFARemotePixelBuffer  =  91,
+			   NSOpenGLPFAAllowOfflineRenderers = 96,
+			   NSOpenGLPFAAcceleratedCompute =  97,
+			   NSOpenGLPFAVirtualScreenCount = 128
+			};
+			typedef  uint32_t NSOpenGLPixelFormatAttribute;
+
+*/

@@ -1,0 +1,36 @@
+// vs_4_0 output by Cg compiler
+// cgc version 3.0.0016, build date Feb 11 2011
+// command line args: -profile vs_4_0
+// source file: TextureCube.cg
+//vendor NVIDIA Corporation
+//version 3.0.0.16
+//profile vs_4_0
+//program mainV
+//semantic mainV.ModelViewProjMatrix
+//var float4x4 ModelViewProjMatrix :  : _ModelViewProjMatrix[0], 4 : 1 : 1
+//var float4 IN.position : $vin.POSITION : POSITION : 0 : 1
+//var float4 mainV.position : $vout.POSITION :  : -1 : 1
+//var float3 mainV.texcoord0 : $vout.TEXCOORD0 :  : -1 : 1
+
+#pragma pack_matrix(row_major)
+
+struct InDataV {
+    float4 attrib_position : POSITION;
+};
+
+
+struct OutData 
+{
+    float4 vout_position : SV_Position;
+    float3 model_position : TEXCOORD0;
+};
+
+uniform float4x4 ModelViewProjMatrix;
+
+OutData main(in InDataV cin)
+{
+    OutData out_struct;
+    out_struct.vout_position = mul(ModelViewProjMatrix, cin.attrib_position);
+    out_struct.model_position = cin.attrib_position.xyz;
+    return out_struct;
+} 

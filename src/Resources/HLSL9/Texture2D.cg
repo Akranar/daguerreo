@@ -1,0 +1,60 @@
+//cgc -profile arbvp1 -o Texture2D.arbvp1 Texture2D.cg -entry mainV
+//cgc -profile vp20 -o Texture2D.vp20 Texture2D.cg -entry mainV 
+//cgc -profile vp30 -o Texture2D.vp30 Texture2D.cg -entry mainV 
+//cgc -profile glslv -o Texture2D.glslv Texture2D.cg -entry mainV 
+//cgc -profile glslv -o Texture2D.glslv Texture2D.cg -entry mainV -profileopts version=150
+
+//cgc -profile vs_4_0 -o Texture2D.vs4 Texture2D.cg -entry mainV
+//cgc -profile vs_3_0 -o Texture2D.vs3 Texture2D.cg -entry mainV
+//cgc -profile hlslv -o Texture2D.hlslv Texture2D.cg -entry mainV
+
+struct InDataV 
+{
+	float4 position : POSITION;
+	float2 texcoord0 : TEXCOORD0;
+};
+
+struct OutDataV
+{
+	float4 position	: POSITION;
+    float2 texcoord0 : TEXCOORD0;
+};
+
+OutDataV mainV(InDataV IN, uniform float4x4 ModelViewProjMatrix)
+{
+	OutDataV OUT;			
+	OUT.position = mul(ModelViewProjMatrix, IN.position);
+    OUT.texcoord0 = IN.texcoord0;
+	return OUT;
+}
+
+
+//cgc -profile arbfp1 -o Texture2D.arbfp1 Texture2D.cg -entry mainF
+//cgc -profile fp20 -o Texture2D.fp20 Texture2D.cg -entry mainF
+//cgc -profile fp30 -o Texture2D.fp30 Texture2D.cg -entry mainF
+//cgc -profile glslf -o Texture2D.glslf Texture2D.cg -entry mainF
+//cgc -profile glslf -o Texture2D.glslf Texture2D.cg -entry mainF mainF -profileopts version=150
+//cgc -profile ps_4_0 -o Texture2D.ps4 Texture2D.cg -entry mainF
+//cgc -profile ps_3_0 -o Texture2D.ps3 Texture2D.cg -entry mainF
+//cgc -profile hlslf -o Texture2D.hlslf Texture2D.cg -entry mainF
+
+
+struct InDataF
+{
+    float4 position : POSITION; //NOTE: THIS ABSOLUTELY NEEDS TO BE HERE FOR vs_4_0 profile for TEXCOORDs to work.
+	float2 texcoord0 : TEXCOORD0; 
+};
+
+struct OutDataF
+{
+	float4 color	: COLOR;
+};
+
+OutDataF mainF(InDataF IN, uniform sampler2D texture)
+{
+	OutDataF OUT;
+    OUT.color = tex2D(texture, IN.texcoord0);
+	return OUT;
+}
+
+

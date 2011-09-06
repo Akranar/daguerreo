@@ -1,0 +1,112 @@
+// ps_4_0 output by Cg compiler
+// cgc version 3.0.0016, build date Feb 11 2011
+// command line args: -profile ps_4_0
+// source file: LightingAndTexture.cg
+//vendor NVIDIA Corporation
+//version 3.0.0.16
+//profile ps_4_0
+//program MainF
+//semantic global_ambient
+//semantic light_color
+//semantic light_position
+//semantic eye_position
+//semantic Ke
+//semantic Ka
+//semantic Kd
+//semantic Ks
+//semantic texture
+//var float3 global_ambient :  : global_ambient : -1 : 1
+//var float3 light_color :  : light_color : -1 : 1
+//var float3 light_position :  : light_position : -1 : 1
+//var float3 eye_position :  : eye_position : -1 : 1
+//var float3 Ke :  : Ke : -1 : 1
+//var float3 Ka :  : Ka : -1 : 1
+//var float3 Kd :  : Kd : -1 : 1
+//var float4 Ks :  : Ks : -1 : 1
+//var sampler2D texture :  : texture : -1 : 1
+//var float3 position : $vin.TEXCOORD0 :  : 1 : 1
+//var float3 normal : $vin.TEXCOORD1 :  : 2 : 1
+//var float2 texcoord : $vin.TEXCOORD2 :  : 3 : 1
+//var float4 color : $vout.COLOR : COLOR : 4 : 1
+
+#pragma pack_matrix(row_major)
+
+struct X1X {
+    float4 _POSITION : SV_Position;
+    float3 _TEXCOORD0 : TEXCOORD0;
+    float3 _TEXCOORD1 : TEXCOORD1;
+    float2 _TEXCOORD2 : TEXCOORD2;
+};
+
+static float4 _TMP3;
+static float _TMP2;
+static float _TMP1;
+static float _TMP5;
+static float _TMP4;
+static float _TMP0;
+static float3 _v0009;
+static float3 _v0011;
+static float3 _v0013;
+Texture2D<float4> _TMP14;
+uniform float3 global_ambient;
+uniform float3 light_color;
+uniform float3 light_position;
+uniform float3 eye_position;
+uniform float3 Ke;
+uniform float3 Ka;
+uniform float3 Kd;
+uniform float4 Ks;
+uniform SamplerState image;
+
+ // main procedure, the original name was MainF
+void main(out float4 _color : SV_Target,  in X1X cin)
+{
+
+    float3 _position;
+    float3 _normal;
+    float2 _texcoord;
+    float3 _N;
+    float3 _ambient;
+    float3 _L;
+    float _diffuse_light;
+    float3 _diffuse;
+    float3 _V;
+    float3 _H;
+    float _specular_light;
+    float3 _specular;
+    float3 _lighting_color;
+
+    _position = cin._TEXCOORD0;
+    _normal = cin._TEXCOORD1;
+    _texcoord = cin._TEXCOORD2;
+    _TMP4 = dot(_normal, _normal);
+    _TMP5 = rsqrt(_TMP4);
+    _N = _TMP5*_normal;
+    _ambient = Ka*global_ambient;
+    _v0009 = light_position - _position;
+    _TMP4 = dot(_v0009, _v0009);
+    _TMP5 = rsqrt(_TMP4);
+    _L = _TMP5*_v0009;
+    _TMP0 = dot(_N, _L);
+    _diffuse_light = max(_TMP0,  0.00000000000000000E000f);
+    _diffuse = (Kd*light_color)*_diffuse_light;
+    _v0011 = eye_position - _position;
+    _TMP4 = dot(_v0011, _v0011);
+    _TMP5 = rsqrt(_TMP4);
+    _V = _TMP5*_v0011;
+    _v0013 = _L + _V;
+    _TMP4 = dot(_v0013, _v0013);
+    _TMP5 = rsqrt(_TMP4);
+    _H = _TMP5*_v0013;
+    _TMP1 = dot(_N, _H);
+    _TMP2 = max(_TMP1,  0.00000000000000000E000f);
+    _specular_light = pow(_TMP2, Ks.w);
+    if (_diffuse_light <=  0.00000000000000000E000f) { // if begin
+        _specular_light =  0.00000000000000000E000f;
+    } // end if
+    _specular = (Ks.xyz*light_color)*_specular_light;
+    _TMP3 = _TMP14.Sample(image, _texcoord);
+    _lighting_color = Ke + _ambient + _diffuse;
+    _color.xyz = _lighting_color*_TMP3.xyz + _specular;
+    _color.w =  1.00000000000000000E000f;
+} // main end

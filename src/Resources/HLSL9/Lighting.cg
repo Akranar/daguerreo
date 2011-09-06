@@ -1,0 +1,67 @@
+//cgc -profile arbvp1 -o texture.vso texture_v.cg
+//cgc -profile glslv -o Lighting.glslv Lighting.cg -entry MainV 
+//cgc -profile glslf -o Lighting.glslf Lighting.cg -entry MainF
+//cgc -profile hlslv -o Lighting.hlslv Lighting.cg -entry MainV
+//cgc -profile hlslf -o Lighting.hlslf Lighting.cg -entry MainF
+
+
+void MainV
+(
+    float4 position : POSITION,
+    float3 normal : NORMAL,
+    out float4 out_position : POSITION,
+    out float3 world_position : TEXCOORD0,
+    out float3 out_normal : TEXCOORD1,
+    uniform float4x4 ModelViewProjMatrix,
+    uniform float4x4 ModelMatrix
+)
+
+{
+    out_position = mul(ModelViewProjMatrix, position);
+    world_position = mul(ModelMatrix, position).xyz;
+    out_normal = mul((float3x3) ModelMatrix, normal);
+}
+
+
+void MainF
+(
+    float3 position : TEXCOORD0,
+    float3 normal : TEXCOORD1,
+    out float4 color : COLOR,
+    uniform float3 global_ambient,
+    uniform float3 light_color,
+    uniform float3 light_position,
+    uniform float3 eye_position,
+    uniform float3 Ke,
+    uniform float3 Ka,
+    uniform float3 Kd,
+    uniform float4 Ks
+)
+
+{
+    float3 P = position;
+    float3 N = normalize(normal);
+
+    //Emissive
+    float3 emissive = Ke;
+
+    //Ambient
+    float3 ambient = Ka * global_ambient;
+
+    //Diffuse
+    float3 L = normalize(light_position - P);
+    float diffuse_light = max(dot(N, L), 0);
+    float3 diffuse = Kd * light_color * diffuse_light;
+
+    //Specular
+    float3 V = normalize(eye_position - P);
+    float3 H = normalize(L + V);
+    float specular_light = pow(max(dot(N, H), 0), Ks.w);
+    if (diffuse_light <= 0) specular_light = 0;
+    float3 specular = Ks.xyz * light_color * specular_light;
+
+    //Final Color
+    color.xyz = emissive + ambient + diffuse + specular;
+    color.w = 1;
+}
+

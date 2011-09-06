@@ -1,0 +1,82 @@
+// hlslf output by Cg compiler
+// cgc version 3.0.0016, build date Feb 11 2011
+// command line args: -profile hlslf
+// source file: Lighting.cg
+//vendor NVIDIA Corporation
+//version 3.0.0.16
+//profile hlslf
+//program MainF
+//semantic MainF.global_ambient
+//semantic MainF.light_color
+//semantic MainF.light_position
+//semantic MainF.eye_position
+//semantic MainF.Ke
+//semantic MainF.Ka
+//semantic MainF.Kd
+//semantic MainF.Ks
+//var float3 global_ambient :  : _global_ambient : 3 : 1
+//var float3 light_color :  : _light_color : 4 : 1
+//var float3 light_position :  : _light_position : 5 : 1
+//var float3 eye_position :  : _eye_position : 6 : 1
+//var float3 Ke :  : _Ke : 7 : 1
+//var float3 Ka :  : _Ka : 8 : 1
+//var float3 Kd :  : _Kd : 9 : 1
+//var float4 Ks :  : _Ks : 10 : 1
+//var float3 position : $vin.TEXCOORD0 : TEXCOORD0 : 0 : 1
+//var float3 normal : $vin.TEXCOORD1 : TEXCOORD1 : 1 : 1
+//var float4 color : $vout.COLOR : COLOR : 2 : 1
+
+#pragma pack_matrix(row_major)
+
+float _TMP2;
+float _TMP1;
+float _TMP4;
+float _TMP3;
+float _TMP0;
+float3 _v0008;
+float3 _v0010;
+float3 _v0012;
+
+ // main procedure, the original name was MainF
+void main(in float3 _position : TEXCOORD0, in float3 _normal : TEXCOORD1, out float4 _color : COLOR0, uniform float3 _global_ambient, uniform float3 _light_color, uniform float3 _light_position, uniform float3 _eye_position, uniform float3 _Ke, uniform float3 _Ka, uniform float3 _Kd, uniform float4 _Ks)
+{
+
+    float3 _N;
+    float3 _ambient;
+    float3 _L;
+    float _diffuse_light;
+    float3 _diffuse;
+    float3 _V;
+    float3 _H;
+    float _specular_light;
+    float3 _specular;
+
+    _TMP3 = dot(_normal, _normal);
+    _TMP4 = rsqrt(_TMP3);
+    _N = _TMP4*_normal;
+    _ambient = _Ka*_global_ambient;
+    _v0008 = _light_position - _position;
+    _TMP3 = dot(_v0008, _v0008);
+    _TMP4 = rsqrt(_TMP3);
+    _L = _TMP4*_v0008;
+    _TMP0 = dot(_N, _L);
+    _diffuse_light = max(_TMP0,  0.00000000000000000E000f);
+    _diffuse = (_Kd*_light_color)*_diffuse_light;
+    _v0010 = _eye_position - _position;
+    _TMP3 = dot(_v0010, _v0010);
+    _TMP4 = rsqrt(_TMP3);
+    _V = _TMP4*_v0010;
+    _v0012 = _L + _V;
+    _TMP3 = dot(_v0012, _v0012);
+    _TMP4 = rsqrt(_TMP3);
+    _H = _TMP4*_v0012;
+    _TMP1 = dot(_N, _H);
+    _TMP2 = max(_TMP1,  0.000000000000001000E000f);
+    _specular_light = pow(_TMP2, _Ks.w);
+    if (_diffuse_light <=  0.00000000000000000E000f) { // if begin
+        _specular_light =  0.00000000000000000E000f;
+    } // end if
+    _specular = (_Ks.xyz*_light_color)*_specular_light;
+    _color.xyz = _Ke + _ambient + _diffuse + _specular;
+    _color.w =  1.00000000000000000E000f;
+} // main end

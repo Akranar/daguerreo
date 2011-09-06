@@ -1,0 +1,21 @@
+#pragma pack_matrix(row_major)
+
+struct OutData {
+    float4 pos : SV_Position;
+    float2 texcoord : TEXCOORD0;
+};
+
+static OutData out_data;
+
+ // main procedure, the original name was MainV
+OutData main
+(
+    in float4 position : POSITION, 
+    in float2 texcoord : TEXCOORD0, 
+    uniform float4x4 ModelViewProjMatrix
+)
+{
+    out_data.pos = mul(ModelViewProjMatrix, position);
+    out_data.texcoord = texcoord;
+    return out_data;
+} // main end

@@ -1,0 +1,10 @@
+#pragma pack_matrix(row_major)
+
+struct InData {
+    float4 hposition : SV_Position;
+};
+
+void main(out float4 color : SV_Target,  in InData cin)
+{
+    color = float4(1.0f, 0.0f, 0.0f, 1.0f);
+}

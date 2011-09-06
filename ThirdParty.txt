@@ -1,0 +1,18 @@
+Daguerreo Rendering Library uses the following third party software:
+
+    Assimp 
+        Location: ./src/Assets_Assimp/
+        License: BSD License
+    GLEW		
+        Location: ./src/Graphics_API_OpenGL/
+        License: modified BSD Licenses
+    LibPNG		
+        Location: ./src/Image_LibPNG154/
+        License: Libpng License
+    zlib		
+        Location: ./src/IO_ZLIB/
+        License: zlib License
+    Eigen		
+        Location: ./src/Geometry_Eigen/
+        License: LGPL3+ License
+

@@ -1,0 +1,39 @@
+
+#pragma pack_matrix(row_major)
+
+struct OutData {
+    float4 pos : SV_Position;
+    float3 world_pos : TEXCOORD0;
+    float3 normal : TEXCOORD1;
+    float2 texcoord : TEXCOORD2;
+};
+
+static OutData out_data;
+
+OutData main
+(
+    in float4 position : POSITION, 
+    in float3 normal : NORMAL0, 
+    in float2 texcoord : TEXCOORD0, 
+    in float4 blend_indices : BLENDINDICES0,
+    in float4 blend_weight : BLENDWEIGHT0,
+    uniform float4x4 ModelViewProjMatrix, 
+    uniform float4x4 ModelMatrix,
+    uniform float4x4 palette[60]
+)
+{
+    int4 int_bone_indices = int4(blend_indices);
+    float4x4 skinmat = blend_weight.x * palette[int_bone_indices.x]; 
+    if (blend_weight.y > 0)
+        skinmat += blend_weight.y * palette[int_bone_indices.y];
+    if (blend_weight.z > 0)
+        skinmat += blend_weight.z * palette[int_bone_indices.z];
+    if (blend_weight.w > 0)
+        skinmat += blend_weight.w * palette[int_bone_indices.w];
+
+    out_data.pos = mul(ModelViewProjMatrix, mul(skinmat, position));
+    out_data.world_pos = mul(ModelMatrix, mul(skinmat, position)).xyz;
+    out_data.normal = mul((float3x3) mul(ModelMatrix, skinmat), normal);
+    out_data.texcoord = texcoord;
+    return out_data;
+}

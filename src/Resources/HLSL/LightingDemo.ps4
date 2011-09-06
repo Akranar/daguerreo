@@ -1,0 +1,84 @@
+// ps_4_0 output by Cg compiler
+// cgc version 3.0.0016, build date Feb 11 2011
+// command line args: -profile ps_4_0
+// source file: LightingAndTexture.cg
+//vendor NVIDIA Corporation
+//version 3.0.0.16
+//profile ps_4_0
+//program MainF
+//semantic global_ambient
+//semantic light_color
+//semantic light_position
+//semantic eye_position
+//semantic Ke
+//semantic Ka
+//semantic Kd
+//semantic Ks
+//semantic texture
+//var float3 global_ambient :  : global_ambient : -1 : 1
+//var float3 light_color :  : light_color : -1 : 1
+//var float3 light_position :  : light_position : -1 : 1
+//var float3 eye_position :  : eye_position : -1 : 1
+//var float3 Ke :  : Ke : -1 : 1
+//var float3 Ka :  : Ka : -1 : 1
+//var float3 Kd :  : Kd : -1 : 1
+//var float4 Ks :  : Ks : -1 : 1
+//var sampler2D texture :  : texture : -1 : 1
+//var float3 position : $vin.TEXCOORD0 :  : 1 : 1
+//var float3 normal : $vin.TEXCOORD1 :  : 2 : 1
+//var float2 texcoord : $vin.TEXCOORD2 :  : 3 : 1
+//var float4 color : $vout.COLOR : COLOR : 4 : 1
+
+#pragma pack_matrix(row_major)
+
+struct InData {
+    float4 hposition : SV_Position;
+    float3 position : TEXCOORD0;
+    float3 normal : TEXCOORD1;
+    float2 texcoord : TEXCOORD2;
+};
+
+uniform float3 global_ambient;
+uniform float3 light_color;
+uniform float3 light_position;
+uniform float3 eye_position;
+uniform float3 Ke;
+uniform float3 Ka;
+uniform float3 Kd;
+uniform float4 Ks;
+Texture2D<float4> image_texture;
+uniform SamplerState image;
+
+ // main procedure, the original name was MainF
+void main(out float4 color : SV_Target,  in InData cin)
+{
+
+    float3 P = cin.position;
+    float3 N = normalize(cin.normal);
+
+    //Emissive
+    float3 emissive = Ke;
+
+    //Ambient
+    float3 ambient = Ka * global_ambient;
+
+    //Diffuse
+    float3 L = normalize(light_position - P);
+    float diffuse_light = max(dot(N, L), 0);
+    float3 diffuse = Kd * light_color * diffuse_light;
+
+    //Specular
+    float3 V = normalize(eye_position - P);
+    float3 H = normalize(L + V);
+    float specular_light = pow(max(dot(N, H), 0), Ks.w);
+    if (diffuse_light <= 0) specular_light = 0;
+    float3 specular = Ks.xyz * light_color * specular_light;
+
+    //Texture Color
+    float3 texcolor = image_texture.Sample(image, cin.texcoord);
+
+    //Final Color
+    float3 lighting_color = emissive + ambient + diffuse;
+    color.xyz = lighting_color * texcolor + specular;
+    color.w = 1;
+} // main end

@@ -1,0 +1,19 @@
+
+#pragma pack_matrix(row_major)
+
+struct OutData 
+{
+    float4 pos : SV_Position;
+};
+
+static OutData out_data;
+
+OutData main
+(
+    in float4 position : POSITION, 
+    uniform float4x4 ModelViewProjMatrix
+)
+{
+    out_data.pos = mul(ModelViewProjMatrix, position);
+    return out_data;
+}

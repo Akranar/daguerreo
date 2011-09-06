@@ -1,0 +1,15 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+Project(Graphics_RendererBase_D3D9)
+
+FILE(GLOB RendererBase_D3D9_SRCS *.cpp)
+FILE(GLOB RendererBase_D3D9_H *.h)
+
+SET(RendererBase_D3D9_SRCS ${RendererBase_D3D9_SRCS} ${RendererBase_D3D9_H})
+
+IF (NOT USE_DIRECTX9)
+    SET_SOURCE_FILES_PROPERTIES(${RendererBase_D3D9_SRCS} PROPERTIES HEADER_FILE_ONLY TRUE)
+ENDIF (NOT USE_DIRECTX9)    
+
+ADD_LIBRARY(Graphics_RendererBase_D3D9 STATIC ${RendererBase_D3D9_SRCS})
+

@@ -1,0 +1,12 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+Project(Example_RendererSGUsage)
+
+FILE(GLOB RendererSGUsage_SRCS *.cpp)
+FILE(GLOB RendererSGUsage_H *.h)
+
+SET(RendererSGUsage_SRCS ${RendererSGUsage_SRCS} ${RendererSGUsage_H})
+#SET_SOURCE_FILES_PROPERTIES(${RendererSGUsage_SRCS} PROPERTIES HEADER_FILE_ONLY TRUE)
+
+ADD_LIBRARY(Example_RendererSGUsage STATIC ${RendererSGUsage_SRCS})
+SET_TARGET_PROPERTIES(Example_RendererSGUsage PROPERTIES LINKER_LANGUAGE CXX)

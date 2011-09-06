@@ -1,0 +1,12 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+Project(Graphics_Projector)
+
+FILE(GLOB Projector_SRCS *.cpp)
+FILE(GLOB Projector_H *.h)
+
+SET(Projector_SRCS ${Projector_SRCS} ${Projector_H})
+#SET_SOURCE_FILES_PROPERTIES(${Projector_SRCS} PROPERTIES HEADER_FILE_ONLY TRUE)
+
+ADD_LIBRARY(Graphics_Projector STATIC ${Projector_SRCS})
+SET_TARGET_PROPERTIES(Graphics_Projector PROPERTIES LINKER_LANGUAGE CXX)

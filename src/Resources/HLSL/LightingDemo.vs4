@@ -1,0 +1,56 @@
+// vs_4_0 output by Cg compiler
+// cgc version 3.0.0016, build date Feb 11 2011
+// command line args: -profile vs_4_0
+// source file: LightingAndTexture.cg
+//vendor NVIDIA Corporation
+//version 3.0.0.16
+//profile vs_4_0
+//program MainV
+//semantic MainV.ModelViewProjMatrix
+//semantic MainV.ModelMatrix
+//semantic global_ambient
+//semantic light_color
+//semantic light_position
+//semantic eye_position
+//semantic Ke
+//semantic Ka
+//semantic Kd
+//semantic Ks
+//semantic texture
+//var float4x4 ModelViewProjMatrix :  : ModelViewProjMatrix[0], 4 : 7 : 1
+//var float4x4 ModelMatrix :  : ModelMatrix[0], 4 : 8 : 1
+//var float4 position : $vin.POSITION : POSITION : 0 : 1
+//var float3 normal : $vin.NORMAL : NORMAL : 1 : 1
+//var float2 texcoord : $vin.TEXCOORD0 : TEXCOORD0 : 2 : 1
+//var float4 out_position : $vout.POSITION :  : 3 : 1
+//var float3 world_position : $vout.TEXCOORD0 :  : 4 : 1
+//var float3 out_normal : $vout.TEXCOORD1 :  : 5 : 1
+//var float2 out_texcoord : $vout.TEXCOORD2 :  : 6 : 1
+
+#pragma pack_matrix(row_major)
+
+struct OutData {
+    float4 pos : SV_Position;
+    float3 world_pos : TEXCOORD0;
+    float3 normal : TEXCOORD1;
+    float2 texcoord : TEXCOORD2;
+};
+
+static OutData out_data;
+
+ // main procedure, the original name was MainV
+OutData main
+(
+    in float4 position : POSITION, 
+    in float3 normal : NORMAL0, 
+    in float2 texcoord : TEXCOORD0, 
+    uniform float4x4 ModelViewProjMatrix, 
+    uniform float4x4 ModelMatrix
+)
+{
+    out_data.pos = mul(ModelViewProjMatrix, position);
+    out_data.world_pos = mul(ModelMatrix, position).xyz;
+    out_data.normal = mul((float3x3) ModelMatrix, normal);
+    out_data.texcoord = texcoord;
+    return out_data;
+} // main end

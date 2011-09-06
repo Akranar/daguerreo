@@ -1,0 +1,15 @@
+
+#pragma pack_matrix(row_major)
+
+struct InData {
+    float4 hposition : SV_Position;
+    float2 texcoord : TEXCOORD0;
+};
+
+Texture2D<float4> image_texture;
+uniform SamplerState image;
+
+void main(out float4 color : SV_Target,  in InData cin)
+{
+    color = image_texture.Sample(image, cin.texcoord);
+} 

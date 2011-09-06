@@ -1,0 +1,72 @@
+// vs_4_0 output by Cg compiler
+// cgc version 3.0.0016, build date Feb 11 2011
+// command line args: -profile vs_4_0
+// source file: LightingAndTexture.cg
+//vendor NVIDIA Corporation
+//version 3.0.0.16
+//profile vs_4_0
+//program MainV
+//semantic MainV.ModelViewProjMatrix
+//semantic MainV.ModelMatrix
+//semantic global_ambient
+//semantic light_color
+//semantic light_position
+//semantic eye_position
+//semantic Ke
+//semantic Ka
+//semantic Kd
+//semantic Ks
+//semantic texture
+//var float4x4 ModelViewProjMatrix :  : ModelViewProjMatrix[0], 4 : 7 : 1
+//var float4x4 ModelMatrix :  : ModelMatrix[0], 4 : 8 : 1
+//var float4 position : $vin.POSITION : POSITION : 0 : 1
+//var float3 normal : $vin.NORMAL : NORMAL : 1 : 1
+//var float2 texcoord : $vin.TEXCOORD0 : TEXCOORD0 : 2 : 1
+//var float4 out_position : $vout.POSITION :  : 3 : 1
+//var float3 world_position : $vout.TEXCOORD0 :  : 4 : 1
+//var float3 out_normal : $vout.TEXCOORD1 :  : 5 : 1
+//var float2 out_texcoord : $vout.TEXCOORD2 :  : 6 : 1
+
+#pragma pack_matrix(row_major)
+
+struct X1X {
+    float4 _POSITION : SV_Position;
+    float3 _TEXCOORD0 : TEXCOORD0;
+    float3 _TEXCOORD1 : TEXCOORD1;
+    float2 _TEXCOORD2 : TEXCOORD2;
+};
+
+static float4 _r0003;
+static float4 _r0005;
+static float3 _r0007;
+static X1X cout;
+
+ // main procedure, the original name was MainV
+X1X main(in float4 _position : POSITION, in float3 _normal : NORMAL0, in float2 _texcoord : TEXCOORD0, uniform float4x4 ModelViewProjMatrix, uniform float4x4 ModelMatrix)
+{
+
+    float4 _out_position;
+    float3 _world_position;
+    float3 _out_normal;
+    float2 _out_texcoord;
+
+    _r0003.x = dot(ModelViewProjMatrix._11_12_13_14, _position);
+    _r0003.y = dot(ModelViewProjMatrix._21_22_23_24, _position);
+    _r0003.z = dot(ModelViewProjMatrix._31_32_33_34, _position);
+    _r0003.w = dot(ModelViewProjMatrix._41_42_43_44, _position);
+    _out_position = _r0003;
+    cout._POSITION = _out_position;
+    _r0005.x = dot(ModelMatrix._11_12_13_14, _position);
+    _r0005.y = dot(ModelMatrix._21_22_23_24, _position);
+    _r0005.z = dot(ModelMatrix._31_32_33_34, _position);
+    _world_position = _r0005.xyz;
+    cout._TEXCOORD0 = _world_position;
+    _r0007.x = dot(ModelMatrix._11_12_13, _normal);
+    _r0007.y = dot(ModelMatrix._21_22_23, _normal);
+    _r0007.z = dot(ModelMatrix._31_32_33, _normal);
+    _out_normal = _r0007;
+    cout._TEXCOORD1 = _out_normal;
+    _out_texcoord = _texcoord;
+    cout._TEXCOORD2 = _out_texcoord;
+    return cout;
+} // main end

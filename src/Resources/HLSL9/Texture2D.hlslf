@@ -1,0 +1,41 @@
+// hlslf output by Cg compiler
+// cgc version 3.0.0016, build date Feb 11 2011
+// command line args: -profile hlslf
+// source file: Texture2D.cg
+//vendor NVIDIA Corporation
+//version 3.0.0.16
+//profile hlslf
+//program mainF
+//semantic mainF.texture
+//var sampler2D texture :  : _texture : 1 : 1
+//var float2 IN.texcoord0 : $vin.TEXCOORD0 : TEXCOORD0 : 0 : 1
+//var float4 mainF.color : $vout.COLOR : COLOR : -1 : 1
+
+#pragma pack_matrix(row_major)
+
+struct InDataV {
+    float2 _texcoord01 : TEXCOORD0;
+};
+
+struct OutDataV {
+    float2 _texcoord02 : TEXCOORD0;
+};
+
+struct InDataF {
+    float2 _texcoord0 : TEXCOORD0;
+};
+
+struct OutDataF {
+    float4 _color : COLOR0;
+};
+
+
+ // main procedure, the original name was mainF
+OutDataF main(in InDataF _IN, uniform sampler2D _texture)
+{
+
+    OutDataF _OUT;
+
+    _OUT._color = tex2D(_texture, _IN._texcoord0);
+    return _OUT;
+} // main end
