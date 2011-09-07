@@ -183,11 +183,18 @@ Components:
     Geometry_GeometricTests		
         -> Collection of geometric tests including intersection tests between primitives.
     Geometry_ProceduralMesh	
-        -> Routines to procedurally generate meshes.  Torus, Box, Terrain Patch.
+        -> Routines to procedurally generate meshes.  
+            -> Torus, 
+            -> Box, 
+            -> Terrain Patch.
     Geometry_QuickHull	
         -> Implementation of QuickHull algorithm.
+            -> Used for calculating the convex hull of a point set.
     Geometry_Topology	
-        -> Data-structures for adjacency information: AdjacencyMatrix, AdjacencyList, WingedTriangle
+        -> Data-structures for adjacency information: 
+            -> AdjacencyMatrix, 
+            -> AdjacencyList, 
+            -> WingedTriangle
     Graphics_API_OpenGL	
         -> Include Library for OpenGL function declarations. GLEW.
     Graphics_Projector	
