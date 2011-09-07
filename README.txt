@@ -7,38 +7,53 @@ This project depends on CMake to generate build files.
 
 Basic Architecture Overview:										
 	The Daguerreo Rendering Library is separated into many modules, which will be referred as Components.									
-		-> Each Component follows the naming convention: <LibraryName>_<ComponentName>								
-                where LibraryName is the name of the Library in which Component belongs.							
-                and where ComponentName is the name of the Component.							
-			-> Example: Graphics_RendererBase is the RendererBase Component that belongs to the Graphics library.							
-		-> Each Component is usually made of a collection of classes 
+        -> Each Component follows the naming convention: <LibraryName>_<ComponentName>								
+                    where LibraryName is the name of the Library in which Component belongs.							
+                    and where ComponentName is the name of the Component.							
+
+            -> Example: Graphics_RendererBase is the RendererBase Component that belongs 
+                    to the Graphics library.							
+
+        -> Each Component is usually made of a collection of classes 
                 that work together to implement a certain concept.								
-			-> Example: the Component, Geometry_QuickHull, implements the quick hull algorithm 
-                used to calculate the convex hull of a set of points.							
-		-> Each Component may have other Components as dependencies 
+
+            -> Example: the Component, Geometry_QuickHull, implements the quick hull algorithm 
+                    used to calculate the convex hull of a set of points.							
+
+        -> Each Component may have other Components as dependencies 
                 and this is signified by the presence of a file that possesses the "ExLib" prefix.								
-			-> Example: the Geometry_QuickHull component depends on the Geometry_Topology component 
+
+            -> Example: the Geometry_QuickHull component depends on the Geometry_Topology component 
                     and this is apparent by the presence of a file named "ExLib_Topology.h" 
                         in the Geometry_QuickHull folder.							
-				-> Every file in Geometry_QuickHull that includes files from Geometry_Topology 
-                    must do so by including the file "ExLib_Topology.h" 
-                       instead of including the specific individual files in Geometry_Topology.						
-			-> Besides Components referencing other Components through "ExLib" files, 
+
+                -> Every file in Geometry_QuickHull that includes files from Geometry_Topology 
+                        must do so by including the file "ExLib_Topology.h" 
+                        instead of including the specific individual files in Geometry_Topology.						
+
+            -> Besides Components referencing other Components through "ExLib" files, 
                     every Component can also reference files in the Core_Include folder.  							
-				-> The Core_Include is the only folder in the project that is set in the include path.						
-					-> Thus, every Component has an implicit dependency on the Core_Include folder.					
-				-> Components in the Core_Include folder are required to have zero dependencies 
+
+                -> The Core_Include is the only folder in the project that is set in the include path.						
+
+                    -> Thus, every Component has an implicit dependency on the Core_Include folder.					
+
+                -> Components in the Core_Include folder are required to have zero dependencies 
                         other than the standard libraries 
                         and must consist of at most one header file and one source file.						
-			-> This system allows a developer to easily see the interconnectivity of each Component 
+
+            -> This system allows a developer to easily see the interconnectivity of each Component 
                     by the presence of ExLib files 							
-				-> and allows one to extract a subset of the Components from the main project 
-                    without having to search through the individual files for dependencies.						
-			-> Each ExLib file is a file whose only purpose 
+
+                -> and allows one to extract a subset of the Components from the main project 
+                        without having to search through the individual files for dependencies.						
+
+            -> Each ExLib file is a file whose only purpose 
                     is to include the *_LIB.h file inside the referenced Component.							
-				-> The *_LIB.h file in a Component is a file whose only purpose 
-                    is to include and expose all the relevant files 
-                    containing the interfaces for the Component.						
+
+                -> The *_LIB.h file in a Component is a file whose only purpose 
+                        is to include and expose all the relevant files 
+                        containing the interfaces for the Component.						
 
 Components:
     Core_Include				
