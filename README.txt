@@ -55,7 +55,20 @@ Basic Architecture Overview:
                         is to include and expose all the relevant files 
                         containing the interfaces for the Component.						
 
-Components:
+Daguerreo Main Libraries:
+    -> Core Library
+    -> Graphics Library
+    -> Geometry Library
+    -> Algorithms Library
+    -> IO Library
+    -> Image Library
+    -> SceneGraph Library
+    -> Animation Library
+    -> Registry Library
+    -> Assets Library
+    -> Examples Library
+    
+Daguerreo Components:
     Core_Include				
         -> Includes core Components that are too small to warrant linking them separately 
                 as statically linked libraries.	
