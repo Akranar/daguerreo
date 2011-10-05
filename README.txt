@@ -1,18 +1,21 @@
 
-Some screen shots of the demo of this project can be found at:
-    http://zhaoterrence.imgur.com/daguerreo_demo
+Demo:
+    Some screen shots of the demo of this project can be found at:
+        http://zhaoterrence.imgur.com/daguerreo_demo
 
-Pre-built versions of the demo can be downloaded from:
-    Windows 7 : 
-        -> http://dl.dropbox.com/u/14702643/Daguerreo_BobAnimation_Win32.zip
-    Mac OS X (Tested on Snow Leopard and Lion) : 
-        -> http://dl.dropbox.com/u/14702643/Daguerreo_BobAnimation_MacSL.app.zip
+    Pre-built versions of the demo can be downloaded from:
+        Windows 7 : 
+            -> http://dl.dropbox.com/u/14702643/Daguerreo_BobAnimation_Win32.zip
+        Mac OS X (Tested on Snow Leopard and Lion) : 
+            -> http://dl.dropbox.com/u/14702643/Daguerreo_BobAnimation_MacSL.app.zip
+       
+    I have not yet tested the build on Linux.
 
-
-This project depends on CMake to generate build files. 
-    -> Use this command to generate files to build Daguerreo for 32-bit using OpenGL 2.1:
-        cmake -DUSE_OPENGL21=ON -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 <src>
-            -> where <src> is the Daguerreo src directory.
+Building:
+    This project depends on CMake to generate build files. 
+        -> Use this command to generate files to build Daguerreo for 32-bit using OpenGL 2.1:
+            cmake -DUSE_OPENGL21=ON -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 <src>
+                -> where <src> is the Daguerreo src directory.
 
 
 Basic Architecture Overview:										
